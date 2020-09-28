@@ -41,11 +41,19 @@ public class MortgageFormPage extends BasePage {
     @FindBy(xpath = "//span[text() = \"Процентная ставка\"]/../span[contains(@data-e2e-id, \"medium-result-credit-rate\")]")
     private WebElement mortgageRate;
 
-    {
-        DriverManager.getDriver().switchTo().frame("iFrameResizer0");
+    private boolean frameFlag = false;
+
+    private void switchToFrame() {
+        if(!frameFlag) {
+            frameFlag = true;
+            DriverManager.getDriver().switchTo().frame("iFrameResizer0");
+        }
     }
+
     @Step("Заполняем поле '{nameField}' значением '{value}'")
     public MortgageFormPage fillField(String nameField, String value) {
+        switchToFrame();
+
         WebElement element = null;
         switch (nameField) {
             case "Стоимость недвижимости":
